@@ -1,7 +1,0 @@
-Referências:
-https://bestsynthesizers.com/blog/controllers-vs-synths/
-http://echolevel.tumblr.com/post/49737964614/knobber-usb-midi-controller-by-echolevel
-https://www.arduino.cc/en/tutorial/midi
-https://www.instructables.com/id/What-is-MIDI/
-https://gitlab.com/timofonic/msp430-midi-controller
-https://www.instructables.com/id/DIY-USB-DJ-Controller/
