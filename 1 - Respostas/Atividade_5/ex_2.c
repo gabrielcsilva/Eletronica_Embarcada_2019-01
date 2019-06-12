@@ -1,6 +1,6 @@
 #include <msp430.h>
-#define BLINK_DELAY_MS 5000
-#define WAIT_TIME 2000
+#define BLINK_DELAY_MS 10000
+#define WAIT_TIME 1000
 
 /**
  * main.c
@@ -36,13 +36,9 @@ int main(void)
 
     __enable_interrupt();
 
-    //Set MCLK = SMCLK = 1MHz
-    BCSCTL1 = CALBC1_1MHZ;
-    DCOCTL = CALDCO_1MHZ;
-
     //Timer Configuration
     TACCR0 = 0; //Initially, Stop the Timer
-    TACCTL0 ^= CCIE; //Enable interrupt for CCR0.
+    TACCTL0 |= CCIE; //Enable interrupt for CCR0.
     TACTL = TASSEL_2 + ID_0 + MC_1; //Select SMCLK, SMCLK/1 , Up Mode
 
     count = 0;
@@ -54,12 +50,15 @@ int main(void)
 #pragma vector = TIMER0_A0_VECTOR
 __interrupt void Timer_A_CCR0_ISR(void)
 {
-    count++;
     if(count >= BLINK_DELAY_MS)
     {
         time++;
         if(time >= WAIT_TIME)
         {
+            if (click == num)
+            {
+                num = rand(num);
+            }
             count = 0;
             time = 0;
             click = 0;
@@ -68,17 +67,19 @@ __interrupt void Timer_A_CCR0_ISR(void)
         }
         else
         {
-            if(click != num)
+            if(click == num)
+            {
+                P1OUT |= BIT0;
+            }
+            else
             {
                 P1OUT |= BIT6;
             }
-            else if (click == num)
-            {
-                P1OUT |= BIT0;
-                num = rand(num);
-            }
         }
-
+    }
+    else
+    {
+        count++;
     }
 }
 
@@ -87,8 +88,6 @@ __interrupt void Timer_A_CCR0_ISR(void)
 __interrupt void Port_1(void)
 {
     TACCR0 = 1000-1; //Start Timer, Compare value for Up Mode to get 1ms delay per loop
-
     click++;
-
     P1IFG &= ~BIT3;
 }

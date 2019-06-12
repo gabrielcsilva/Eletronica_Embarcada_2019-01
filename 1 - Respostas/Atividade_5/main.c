@@ -14,7 +14,7 @@ int main(void)
     P1REN |= BIT3; // Enable internal pull-up/down resistors
     P1OUT |= BIT3; //Select pull-up mode for P1.3
     P1IE |= BIT3; // P1.3 interrupt enabled
-    P1IES ^= BIT3; // P1.3 Lo/hi edge
+    P1IES |= BIT3; // P1.3 Lo/hi edge
     P1IFG &= ~BIT3; // P1.3 IFG cleared
 
     __bis_SR_register(GIE);
